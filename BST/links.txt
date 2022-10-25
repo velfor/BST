@@ -1,0 +1,5 @@
+https://stackoverflow.com/questions/11263244/java-how-do-i-implement-a-generic-binary-search-tree
+
+https://github.com/jnethery/CS2/blob/master/Generic%20Binary%20Search%20Tree/GenericBST.java
+
+https://codereview.stackexchange.com/questions/158831/generic-binary-search-tree-in-java
