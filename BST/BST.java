@@ -1,22 +1,30 @@
 package BST;
-
 /**
  * Created by velfor on 25.10.2022.
  */
 class Node<T>{
     T data;
-    Node<T> left, right;
+    Node<T> left;
+    Node<T> right;
 
-    Node(T data) {     this.data = data;   }
+    Node(T data){
+        this.data = data;
+    }
 }
-
-public class BST <T extends Comparable<T>> implements BinaryTree<T>{
-
+public class BST<T extends Comparable<T>> implements BinaryTree<T> {
     private Node<T> root;
+
+    public Node<T> getRoot() {
+        return root;
+    }
+
+    public void setRoot(Node<T> root) {
+        this.root = root;
+    }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return root == null;
     }
 
     @Override
@@ -24,30 +32,95 @@ public class BST <T extends Comparable<T>> implements BinaryTree<T>{
         root = insert(root, data);
     }
 
-    private Node<T> insert(Node<T> root, T data)
-    {
-        if (root == null){
+    private Node<T> insert(Node<T> root, T data) {
+        if (root == null) {
             return new Node<T>(data);
-        }
-        else if (data.compareTo(root.data) < 0){
+        } else if (data.compareTo(root.data) < 0) {
             root.left = insert(root.left, data);
-        }
-        else if (data.compareTo(root.data) > 0){
+        } else if (data.compareTo(root.data) > 0) {
             root.right = insert(root.right, data);
-        }
-        else{
-
+        } else {
+            //
         }
         return root;
     }
 
     @Override
-    public void delete() {
+    public Node<T> findMin(Node<T> root) {
+        Node<T> curr = root;
+        while(curr.left != null){
+            curr = curr.left;
+        }
+        return curr;
+    }
 
+    @Override
+    public T findMax() {
+        Node<T> curr = root;
+        while(curr.right != null){
+            curr = curr.right;
+        }
+        return curr.data;
+    }
+
+    @Override
+    public void delete(T data) {
+        root = delete(root, data);
+    }
+    private Node<T> delete(Node<T> root, T data){
+        if (root == null)
+            return root;
+        if (data.compareTo(root.data) < 0){
+            root.left = delete(root.left, data);
+        }
+        else if(data.compareTo(root.data) > 0 ){
+            root.right = delete(root.right, data);
+        }
+        else if (root.left != null && root.right != null){
+            root.data = findMin(root.right).data;
+            root.right = delete(root.right, root.data);
+        }
+        else {
+            if (root.left != null)
+                root = root.left;
+            else if (root.right != null)
+                root = root.right;
+            else
+                root = null;
+        }
+        return root;
     }
 
     @Override
     public boolean contains(T data) {
-        return false;
+        return contains(root, data);
+    }
+    private boolean contains(Node<T> root, T data)
+    {
+        if (root == null){
+            return false;
+        }
+        else if (data.compareTo(root.data) < 0){
+            return contains(root.left, data);
+        }
+        else if (data.compareTo(root.data) > 0){
+            return contains(root.right, data);
+        }
+        else{
+            return true;
+        }
+    }
+
+    @Override
+    public void inorder(Node<T> root) {
+        //Если дерево пусто, остановиться.
+        if (root == null) return;
+                //Иначе
+        //Рекурсивно обойти левое поддерево Т.
+        inorder(root.left);
+                //Применить функцию f к корневому узлу.
+        System.out.println(root.data+ " ");
+                //Рекурсивно обойти правое поддерево Т.
+        inorder(root.right);
     }
 }
